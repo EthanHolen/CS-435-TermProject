@@ -1,5 +1,8 @@
+import os
 import json
 
+def getJsonFiles(dataDir):
+    return [jsonFile for jsonFile in os.listdir(dataDir) if os.path.isfile(os.path.join(dataDir, jsonFile))]
 
 def runAnalysis(fileName):
     eventID = "PushEvent"
@@ -29,12 +32,11 @@ def runAnalysis(fileName):
     return res
 
 if __name__ == "__main__":
-    fileBase = "data/2021-01-01-"
+    dataDir = 'data2/decompressed/'
+    jsonFiles = getJsonFiles(dataDir)
     res = dict()
-    for i in range(10):
-        #newRes = runAnalysis((fileBase + str(i) + '.json'), res)
-        res.update(runAnalysis((fileBase + str(i) + '.json')))
-        #res.update(newRes)
+    for jsonFile in jsonFiles:
+        res.update(runAnalysis(dataDir + jsonFile))
 
     count = 0
     for key in res:
