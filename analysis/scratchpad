@@ -1,0 +1,32 @@
+~35,000 push events per file
+~25,000 non-push events per file
+~744 files per month
+
+60 api requests per hour
+1440 API requests per day
+
+~0.041 files can be completed per day
+
+~18,083 days to complete one month
+
+
+Fix: 
+	- get authed, increases api request limit to 5,000 per hour: https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting
+	- Perform api requests after 1st mapreduce job, Store output in hierarchy or process into later:  users -> repo -> message
+	- Use multiple computer for API requests
+
+Results:
+	- 5000 api requests per hour
+	- 120,000 API requests per day
+	- Num of API requests = Number of repos instead of Number of push events
+	- ~60% less API requests needed
+
+
+	- ~12-16 files can be completed in one day
+	- Estimated 53 days to complete one month with only one account
+	- 18 days with 3
+
+Further:
+	- Only process even days of the month
+	- Estimated 50 days to complete one month with only one account
+	- 17 days with 3
