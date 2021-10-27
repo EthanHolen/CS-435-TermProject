@@ -52,7 +52,7 @@ for line in open('data/2021-01-01-0.json', 'r'):
                     f.write("403: (" + commitRepo + "), message(" + commitMsg + ")\n")
                 else:
                     f = open('errorLog', 'a')
-                    f.write("404: (" + commitRepo + "), message(" + commitMsg + ")\n")
+                    f.write(err.code, ": (" + commitRepo + "), message(" + commitMsg + ")\n")
 
 
 # Partition() breaks the key down into user/partition pair, [0] prints only user
