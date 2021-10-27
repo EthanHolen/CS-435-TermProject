@@ -6,6 +6,11 @@ totalNumberOfPushEventInAScaryGlobalVariable = 0
 def getJsonFiles(dataDir):
     return [jsonFile for jsonFile in os.listdir(dataDir) if os.path.isfile(os.path.join(dataDir, jsonFile))]
 
+def printPerFileAnalysis(fileName, numUniqueRepos, numRepos):
+    firstBar = ' ' * (18-len(fileName)) + '|'
+    secondBar = "       |"
+    print(fileName, firstBar, numUniqueRepos, secondBar, numRepos)
+
 def runAnalysis(filePath):
     global totalNumberOfPushEventInAScaryGlobalVariable
 
@@ -25,17 +30,17 @@ def runAnalysis(filePath):
                 res[repo[2]] = {repo[0]}
 
     totalNumberOfPushEventInAScaryGlobalVariable += PushEventCount
-    print(filePath.split("/")[-1], "|", len(res), "       |", PushEventCount)
+    printPerFileAnalysis(filePath.split("/")[-1], len(res), PushEventCount)
 
     return res
 
 if __name__ == "__main__":
-    dataDir = 'data2/decompressed/'
+    dataDir = 'data/decompressed/'
     jsonFiles = getJsonFiles(dataDir)
     repoDict = dict()
 
     print("Listing number of unique repos per file")
-    print("File Name         | Unique Repos | Total Repos")
+    print("File Name          | Unique Repos | Total Repos")
     for jsonFile in jsonFiles:
         # Apparently python passes objects by reference so .update() isn't needed but I'm too lazy to change that
         repoDict.update(runAnalysis(dataDir + jsonFile))
