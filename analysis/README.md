@@ -7,4 +7,6 @@
       Where any field can be replaced with a range e.g. dd = {01...07}, to grab the first seven days of a month.
 
     Run generateData.sh with './generateData.sh'
-      The script may need to have its access permission changed to allow it to be exectuted with 'chmod +x generateData.sh'
+      The script may need to have its access permissions changed to allow it to be exectuted with 'chmod +x generateData.sh'
+
+    Run RepeatedRepo.py with 'python3 RepeatedRepo.py'
