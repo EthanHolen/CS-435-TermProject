@@ -1,27 +1,31 @@
 import os
 import json
 
+totalNumberOfPushEventInAScaryGlobalVariable = 0
+
 def getJsonFiles(dataDir):
     return [jsonFile for jsonFile in os.listdir(dataDir) if os.path.isfile(os.path.join(dataDir, jsonFile))]
 
 def runAnalysis(filePath):
-    eventID = "PushEvent"
+    global totalNumberOfPushEventInAScaryGlobalVariable
 
+
+    PushEventCount = 0
     res = dict()
-
-    nonEvents = 0
-    events = 0
+    eventID = "PushEvent"
 
     for line in open(filePath):
         data = json.loads(line)
         if data['type'] == eventID:
+            PushEventCount += 1
             repo = data['repo']['name'].partition("/")
             if repo[2] in res:
                 res[repo[2]].add(repo[0])
             else:
                 res[repo[2]] = {repo[0]}
 
-    print(filePath.split("/")[-1], ", ", len(res))
+    totalNumberOfPushEventInAScaryGlobalVariable += PushEventCount
+    print(filePath.split("/")[-1], "|", len(res), "       |", PushEventCount)
 
     return res
 
@@ -31,7 +35,9 @@ if __name__ == "__main__":
     repoDict = dict()
 
     print("Listing number of unique repos per file")
+    print("File Name         | Unique Repos | Total Repos")
     for jsonFile in jsonFiles:
+        # Apparently python passes objects by reference so .update() isn't needed but I'm too lazy to change that
         repoDict.update(runAnalysis(dataDir + jsonFile))
 
     # count = Number of API requests required with only partial optimization
@@ -40,5 +46,6 @@ if __name__ == "__main__":
         for user in repoDict[key]:
             count += 1
 
-    print("\nRequests needed with partial optimization: ", count)
+    print("\nRequests needed with no optimization: ", totalNumberOfPushEventInAScaryGlobalVariable)
+    print("Requests needed with partial optimization: ", count)
     print("Requests needed with full optimization: ", len(repoDict))
