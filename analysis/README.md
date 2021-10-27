@@ -9,4 +9,17 @@
     Run generateData.sh with './generateData.sh'
       The script may need to have its access permissions changed to allow it to be exectuted with 'chmod +x generateData.sh'
 
+## Scripts and what they do
+
+    languages.py
+      Iterates over entries in a data file finding PushEvents and grabs the language distribution of the associated repo
+
+    EventDistro.py
+      Iterates over entries in a data file to find the amount of each kind of event present
+
+    RepeatedRepo.py
+      Iterates over data files and analyzes the amount of API requests required for the workload by the level of optimization
+
+## Running the scripts
+
     Run RepeatedRepo.py with 'python3 RepeatedRepo.py'
