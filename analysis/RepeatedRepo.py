@@ -54,3 +54,4 @@ if __name__ == "__main__":
     print("\nRequests needed with no optimization: ", totalNumberOfPushEventInAScaryGlobalVariable)
     print("Requests needed with partial optimization: ", count)
     print("Requests needed with full optimization: ", len(repoDict))
+    print("Ratio of number of optimal API requests / number of PushEvents", (len(repoDict)/totalNumberOfPushEventInAScaryGlobalVariable))
