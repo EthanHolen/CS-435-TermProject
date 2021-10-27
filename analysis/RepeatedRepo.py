@@ -4,7 +4,7 @@ import json
 def getJsonFiles(dataDir):
     return [jsonFile for jsonFile in os.listdir(dataDir) if os.path.isfile(os.path.join(dataDir, jsonFile))]
 
-def runAnalysis(fileName):
+def runAnalysis(filePath):
     eventID = "PushEvent"
 
     res = dict()
@@ -12,34 +12,33 @@ def runAnalysis(fileName):
     nonEvents = 0
     events = 0
 
-    for line in open(fileName):
+    for line in open(filePath):
         data = json.loads(line)
         if data['type'] == eventID:
             repo = data['repo']['name'].partition("/")
-            #name = repoPath.partition("/")[0]
-            #repo = repoPath.partition("/")[2]
-            if repo[0] in res:
-                res[repo[0]].add(repo[2])
+            if repo[2] in res:
+                res[repo[2]].add(repo[0])
             else:
-                res[repo[0]] = {repo[2]}
+                res[repo[2]] = {repo[0]}
 
-    count = 0
-    for key in res:
-        for repo in res[key]:
-            count += 1
-    print(fileName, ", ", count)
+    print(filePath.split("/")[-1], ", ", len(res))
 
     return res
 
 if __name__ == "__main__":
     dataDir = 'data2/decompressed/'
     jsonFiles = getJsonFiles(dataDir)
-    res = dict()
-    for jsonFile in jsonFiles:
-        res.update(runAnalysis(dataDir + jsonFile))
+    repoDict = dict()
 
+    print("Listing number of unique repos per file")
+    for jsonFile in jsonFiles:
+        repoDict.update(runAnalysis(dataDir + jsonFile))
+
+    # count = Number of API requests required with only partial optimization
     count = 0
-    for key in res:
-        for repo in res[key]:
+    for key in repoDict:
+        for user in repoDict[key]:
             count += 1
-    print(count)
+
+    print("\nRequests needed with partial optimization: ", count)
+    print("Requests needed with full optimization: ", len(repoDict))
